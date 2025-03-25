@@ -1,0 +1,59 @@
+import random
+import datetime
+
+# Struktur Data: List untuk menyimpan daftar pertandingan
+matches = []
+
+def add_match(team1, team2):
+    match = {
+        'id': random.randint(1000, 9999),  # ID unik
+        'teams': f"{team1} vs {team2}",
+        'scheduled_on': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'status': 'Belum Dimulai'
+    }
+    matches.append(match)
+    print(f"Pertandingan '{team1} vs {team2}' telah dijadwalkan dengan ID {match['id']}")
+
+def view_matches():
+    if not matches:
+        print("Tidak ada pertandingan yang tersedia.")
+        return
+    print("\nDaftar Pertandingan:")
+    for match in matches:
+        print(f"[ID {match['id']}] {match['teams']} - Dijadwalkan pada {match['scheduled_on']} - Status: {match['status']}")
+
+def complete_match(match_id):
+    for match in matches:
+        if match['id'] == match_id:
+            match['status'] = 'Selesai'
+            print(f"Pertandingan dengan ID {match_id} telah selesai.")
+            return
+    print(f"Pertandingan dengan ID {match_id} tidak ditemukan.")
+
+# Menu Interaktif dengan Struktur Kontrol
+while True:
+    print("\nMenu:")
+    print("1. Jadwalkan Pertandingan")
+    print("2. Lihat Daftar Pertandingan")
+    print("3. Selesaikan Pertandingan")
+    print("4. Keluar")
+    
+    choice = input("Pilih menu (1-4): ")
+    
+    if choice == '1':
+        team1 = input("Masukkan nama tim pertama: ")
+        team2 = input("Masukkan nama tim kedua: ")
+        add_match(team1, team2)
+    elif choice == '2':
+        view_matches()
+    elif choice == '3':
+        try:
+            match_id = int(input("Masukkan ID pertandingan yang telah selesai: "))
+            complete_match(match_id)
+        except ValueError:
+            print("Harap masukkan angka yang valid.")
+    elif choice == '4':
+        print("Keluar dari program.")
+        break
+    else:
+        print("Pilihan tidak valid. Silakan pilih lagi.")
